@@ -1,3 +1,19 @@
 svg{
-border:black 2px solid;
+border:black 2px solid
 }
+
+body{
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    display: block;
+    margin: 0 auto;
+}
+  
+  svg{
+    /* the next 2 lines center the svg in the middle of the div */
+    display: block;
+    margin: 0 auto;
+  }
+  
+  text.activity{
+    text-transform: lowercase;
+  }
