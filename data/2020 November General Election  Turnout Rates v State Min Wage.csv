@@ -1,0 +1,56 @@
+State,Percent of State Pop Voted,Minimum Wage
+United States,66.70%,7.25
+Alabama,63.10%,0
+Alaska,68.80%,10.19
+Arizona,65.90%,12
+Arkansas,56.10%,10
+California,68.50%,13
+Colorado,76.40%,12
+Connecticut,71.50%,11
+Delaware,70.70%,9.25
+District of Columbia,64.10%,14
+Florida,71.70%,8.56
+Georgia,67.70%,5.15
+Hawaii,57.50%,8.25
+Idaho,68.00%,10.1
+Illinois,67.00%,7.25
+Indiana,61.40%,9.25
+Iowa,73.20%,7.25
+Kansas,65.90%,7.25
+Kentucky,64.90%,7.25
+Louisiana*,64.60%,7.25
+Maine,76.30%,0
+Maryland,71.10%,12
+Massachusetts,72.10%,11
+Michigan,73.90%,12.75
+Minnesota,80.00%,9.65
+Mississippi,60.20%,8.15
+Missouri,65.70%,0
+Montana*,73.10%,9.45
+Nebraska,69.90%,8.65
+Nevada,65.40%,9
+New Hampshire,75.50%,7.25
+New Jersey,75.30%,7.25
+New Mexico,61.30%,11
+New York,63.40%,9
+North Carolina,71.50%,11.8
+North Dakota,64.50%,7.25
+Ohio,67.40%,7.25
+Oklahoma,55.00%,8.7
+Oregon,75.50%,2
+Pennsylvania*,71.00%,11.25
+Rhode Island,65.70%,7.25
+South Carolina,64.50%,5.08
+South Dakota,66.00%,10.5
+Tennessee,59.80%,0
+Texas,60.40%,9.3
+Utah,69.20%,0
+Vermont,74.20%,7.25
+Virginia,73.00%,10.5
+Washington,75.70%,7.25
+West Virginia,57.60%,10.96
+Wisconsin,75.80%,7.25
+Wyoming,64.60%,13.5
+"* Notes: For Louisiana, and Montana, I am using the US Senate election as the highest office since these races had the highest turnout. Pennsylvania does not yet include write-in votes",,8.75
+,,7.25
+,,5.15
