@@ -9,6 +9,7 @@ const width = window.innerWidth * 1,
 let svg;
 let xScale;
 let yScale;
+let colorScale;
 
 /* APPLICATION STATE */
 let state = {
@@ -28,15 +29,20 @@ d3.json("../data/environmentRatings.json", d3.autoType).then(raw_data => {
 /* INITIALIZING FUNCTION */
 // this will be run *one time* when the data finishes loading in
 function init() {
-  console.log('state', state)
+
   // + DEFINE SCALES
 xScale = d3.scaleLinear()
 .domain(d3.extent(state.data, d=>d.ideologyScore2020))
 .range([margin.left, width - margin.right])
 
-yScale = d3.scaleLinear( )
+yScale = d3.scaleLinear()
 .domain(d3.extent(state.data, d=> d.envScore2020))
-.range([height-margin.bottom, margin.top])
+.range([height - margin.bottom, margin.bottom])
+
+colorScale = d3.scaleOrdinal()
+.domain("R", "D")
+.range(["red", "blue", "purple"])
+
 
   // + DEFINE AXES
   const xAxis = d3.axisBottom(xScale)
@@ -44,23 +50,26 @@ yScale = d3.scaleLinear( )
 
 
   // + UI ELEMENT SETUP
-  const dropdown = d3.select("#dropdown")
+  const selectElement = d3.select("#dropdown")
     
-  dropdown.selectAll("options")
-    .data(["All", "R", "D"])
-    .join("option")
-    .attr("value", d=> d)
-    .text(d=> d)
-
-    dropdown.on("change", event=> {
-      console.log("dropdown changed!", event.target.value)
-      state.selectedParty = event.target.value
-      console.log("new state", state)
-      draw();
-    })
-
   // + add dropdown options
+selectElement //Why did this change to selectElement from 'dropdown'?
+    .selectAll("options")
+    .data([
+      {key: "All", label: "All"},
+      {key: "R", label: "Republican"},
+      {key: "D", label: "Democract"}])
+    .join("option")
+    .attr("value", d => d.key)
+    .text(d => d.label)
+
   // + add event listener for 'change'
+    selectElement.on("change", event=> {
+      console.log("dropdown changed!", event.target.value);
+      state.selectedParty = event.target.value
+      console.log("new state", state);
+      draw();
+    }); //what does the ; mean again?
 
   // + CREATE SVG ELEMENT
 svg = d3.select("#d3-container")
@@ -69,21 +78,35 @@ svg = d3.select("#d3-container")
   .attr('height', height)
 
   // + CREATE AXES
-svg.append("g")
-.attr("class", "xAxis")
-.attr("transform", `translate(${0}, ${height-margin.bottom})`) 
+const xAxisGroup = svg.append("g")
+.attr("class", 'xAxis') //what is the differnece btween " and ' 
+.attr("transform", `translate(${0}, ${height - margin.bottom})`) 
 .call(xAxis)
 
-svg.append("g")
-.attr("class", "yAxis")
+const yAxisGroup = svg.append("g")
+.attr("class", 'yAxis')
 .attr("transform", `translate(${margin.left}, ${0})`) 
 .call(yAxis)
+
+xAxisGroup.append("text")
+  .attr("class", 'axis-title')
+  .attr("x", width / 2)
+  .attr("y", 40)
+  .attr("text-anchor", "middle")
+  .text("Ideology Score 2020")
+
+yAxisGroup.append("text")
+  .attr("class", 'axis-title')
+  .attr("x", -40)
+  .attr("y", height / 2)
+  .attr("writing-mode", "vertical-lr")
+  .attr("text-anchor", "middle")
+  .text("Environmental Score 2020")
 
  // draw(); // calls the draw function 
 draw();
  
 }
-
   
 /* DRAW FUNCTION */
 // we call this everytime there is an update to the data/state
@@ -93,28 +116,41 @@ svg.append("circle")
 
 // + FILTER DATA BASED ON STATE
 const filteredData = state.data
-.filter(d=> {
-  if (state.selectedParty === "All") return true
-  else return d.Party=== state.selectedParty
-}) // <--- update to filter
+    .filter(d => state.selectedParty === "All" || state.selectedParty === d.Party)
 
-svg.selectAll("circle")
-.data(filteredData, d => d.BioID) //array of objects
-.join(
-  enter=> enter.append("circle")
-  .attr("r", radius)
-  .attr("cx", margin.left)
-  .attr("fill", d=> {
-    if (d.Party==="R") return "red"
-    else return "blue"
-      } )
-  .attr("cy", d=> yScale(d.envScore2020))
-  .call(enter=> enter.transition()
-    .duration(1000)
-    .attr("cx", d=> xScale(d.ideologyScore2020))
-  )
-  ,
-  update => update,
-  exit => exit.remove()
+  const dot = svg
+    .selectAll("circle")
+    .data(filteredData, d => d.BioID)
+    .join(
+      // + HANDLE ENTER SELECTION
+      enter => enter.append("circle")
+        .attr("r", radius)
+        .attr("fill", d => colorScale(d.Party))
+        .attr("cx", 0) // start dots on the left
+        .attr("cy", d => yScale(d.envScore2020))
+        .call(sel => sel.transition()
+          .duration(500)
+          .attr("cx", d => xScale(d.ideologyScore2020)) // transition to correct position
+        ),
+ // + HANDLE UPDATE SELECTION
+ update => update
+ .call(sel => sel
+   .transition()
+   .duration(250)
+   .attr("r", radius * 1.5) // increase radius size
+   .transition()
+   .duration(250)
+   .attr("r", radius) // bring it back to original size
+ ),
+
+// + HANDLE EXIT SELECTION
+exit => exit
+ .call(sel => sel
+   .attr("opacity", 1)
+   .transition()
+   .duration(500)
+   .attr("opacity", 0)
+   .remove()
+ )
 );
 }
