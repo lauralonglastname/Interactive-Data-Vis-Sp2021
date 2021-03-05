@@ -13,12 +13,20 @@ let yScale;
 /* APPLICATION STATE */
 let state = {
   data: [],
-  selection: "All", // + YOUR FILTER SELECTION
+  selection: "Federal", // + YOUR FILTER SELECTION
 };
 
 /* LOAD DATA */
 // + SET YOUR DATA PATH
-d3.csv('../data/populationOverTime.csv', d3.autoType)
+d3.csv('../data/MinWageData2020Dollars.csv', (d)=> {
+  console.log(d)
+return {
+  usstate: d.State,
+  minwage: +d.StateMinWage,
+  fedwage: +d.FedMinWage,
+  year: new Date(d.Year, 01, 01) 
+}
+})
   .then(data => {
     console.log("loaded data:", data);
     state.data = data;
@@ -28,19 +36,53 @@ d3.csv('../data/populationOverTime.csv', d3.autoType)
 /* INITIALIZING FUNCTION */
 // this will be run *one time* when the data finishes loading in
 function init() {
-  // + SCALES
+  // SCALES
+  xScale = d3.scaleTime()
+  .domain(d3.extent(state.data, d=> d.year))
+  .range([margin.left, width - margin.right])
 
-  // + AXES
+yScale = d3.scaleLinear()
+  .domain(d3.extent(state.data, d=> d.envScore2020)) // [min, max]
+  .range([height-margin.bottom, margin.top])
 
-  // + UI ELEMENT SETUP
+// AXES
+const xAxis = d3.axisBottom(xScale)
+const yAxis = d3.axisLeft(yScale)
 
-  // add in dropdown options from the unique values in the data
+// Create svg
+svg = d3.select("#d3-container")
+.append("svg")
+.attr('width', width)
+.attr('height', height)
 
-  // + SET SELECT ELEMENT'S DEFAULT VALUE (optional)
+svg.append("g")
+.attr("class", "xAxis")
+.attr("transform", `translate(${0}, ${height-margin.bottom})`)
+.call(xAxis)
+.append("text")
+.text("Ideology Score 2020")
+.attr("transform", `translate(${width/2}, ${40})`)
 
-  // + CREATE SVG ELEMENT
+svg.append("g")
+.attr("class", "yAxis")
+.attr("transform", `translate(${margin.left}, ${0})`)
+.call(yAxis)
 
-  // + CALL AXES
+// SETUP UI ELEMENTS
+const dropdown = d3.select("#dropdown")
+
+dropdown.selectAll("options")
+.data(["All","R", "D"])
+.join("option")
+.attr("value", d => d)
+.text(d=> d)
+
+dropdown.on("change", event=> {
+console.log("dropdown changed!", event.target.value)
+state.selectedParty = event.target.value
+console.log("new state:", state)
+draw();
+})
 
   draw(); // calls the draw function
 }

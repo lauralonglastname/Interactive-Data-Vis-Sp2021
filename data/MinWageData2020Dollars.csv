@@ -1,4 +1,4 @@
-Year,State,State.Minimum.Wage.2020.Dollars,Federal.Minimum.Wage.2020.Dollars,Effective.Minimum.Wage.2020.Dollars
+Year,State,StateMinWage,FedMinWage,EffectiveMinWage
 1968,Federal,8.55,8.55,8.55
 1968,Alabama,0,8.55,8.55
 1968,Alaska,15.61,8.55,15.61
