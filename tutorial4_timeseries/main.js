@@ -2,7 +2,7 @@
 const width = window.innerWidth * 0.7,
   height = window.innerHeight * 0.7,
   margin = { top: 20, bottom: 50, left: 60, right: 40 },
-  radius = 5;
+  radius = 3.5;
 
 // these variables allow us to access anything we manipulate in init() but need access to in draw().
 // All these variables are empty before we assign something to them.
@@ -18,7 +18,7 @@ let state = {
 
 /* LOAD DATA */
 // + SET YOUR DATA PATH
-d3.csv('../data/MinWageData2020Dollars.csv', (d)=> {
+d3.csv('../data/MinWageData2020Dollars.csv', d => {
 return {
   usstate: d.State,
   minwage: +d.StateMinWage,
@@ -41,14 +41,31 @@ function init() {
   .range([margin.left, width - margin.right])
   
   yScale = d3.scaleLinear()
-  .domain(d3.extent(state.data, d=> d.minwage))
+  .domain(d3.extent(state.data, d=>d.minwage))
   .range([height - margin.bottom, margin.bottom])
   
 //     // + DEFINE AXES 
     const xAxis = d3.axisBottom(xScale)
     const yAxis = d3.axisLeft(yScale) 
   
-//     //Create svg
+    // + UI ELEMENT SETUP
+  const dropdown = d3.select('#dropdown')
+
+  // add in dropdown options from the unique values in the data
+  dropdown.selectAll("option")
+    .data(
+      Array.from(new Set(state.data.map(d => d.usstate))))
+    .join("option")
+    .attr("value", d => d)
+    .text(d => d)
+
+    dropdown.on("change", event => {
+      console.log("dropdown changed!", event.target.value)
+      state.selection = event.target.value
+      console.log("new state", state)
+      draw();
+    })
+
 // + CREATE SVG ELEMENT
 svg = d3.select("#d3-container")
   .append("svg")
@@ -61,73 +78,71 @@ const xAxisGroup = svg.append("g")
 .attr("transform", `translate(${0}, ${height - margin.bottom})`) 
 .call(xAxis)
 
+xAxisGroup.append("text")
+  .attr("class", 'axis-title')
+  .attr("x", width / 2 )
+  .attr("y", 40)
+  .attr("text-anchor", "middle")
+  .attr("font-size","14")
+  .attr("fill", "black")
+  .text("Year")
+
 const yAxisGroup = svg.append("g")
 .attr("class", 'yAxis')
 .attr("transform", `translate(${margin.left}, ${0})`) 
 .call(yAxis)
 
-xAxisGroup.append("text")
-  .attr("class", 'axis-title')
-  .attr("x", width / 2)
-  .attr("y", 40)
-  .attr("text-anchor", "middle")
-  .attr("fill", "black")
-  .text("Year")
-
 yAxisGroup.append("text")
   .attr("class", 'axis-title')
   .attr("x", -40)
-  .attr("y", height / 2)
+  .attr("y", height /2)
   .attr("writing-mode", "vertical-lr")
   .attr("text-anchor", "middle")
+  .attr("font-size","14")
   .attr("fill","black")
-  .text("Minimum Wage")
+  .text("Minimum Wage $USD 2020")
 
- // + UI ELEMENT SETUP
- const selectElement = d3.select("#dropdown")
+//  // + UI ELEMENT SETUP
+//  const selectElement = d3.select("#dropdown")
     
- // + add dropdown options
-selectElement //Why did this change to selectElement from 'dropdown'?
-   .selectAll("options")
-   .data(Array.from(new Set(state.date.map(d=> d.usstate))))
-   .join("option")
-   .attr("value", d => d)
-   .text(d => d)
-
-// const dropdown = d3.select("#dropdown")
-
-// dropdown.selectAll("options")
-// .data(Array.from(new Set(state.date.map(d=> d.usstate))))
-// .join("option")
-// .attr("value", d => d)
-// .text(d => d)
-// console.log("dropdown: ", dropdown)
-
-dropdown.on("change", event=> {
-  console.log("dropdown changed!", event.target.value)
-  state.selection = event.target.value
-  console.log("new state:", state)
-  draw();
-})
-
-  draw();
-}
+//  // + add dropdown options
+// selectElement //Why did this change to selectElement from 'dropdown'?
+//    .selectAll("options")
+//    .data(Array.from(new Set(state.date.map(d=> d.usstate))))
+//    .join("option")
+//    .attr("value", d => d)
+//    .text(d => d)
 
 // })
 draw(); // calls the draw function
+}
+
+// /* CREATE FIXED FED MIN WAGE LINE */ 
+// const lineFunction = d3.line()
+// .x(d=> xScale(d.year))
+// .y(d=> yScale(d.minwage))
+
+// svg.selectAll("path.line")
+// .data([filteredData = state.data.filter(d => state.selection === d.FedMinWage)])
+// .join("path")
+// .attr("class", "line")
+// .attr("d", d=> lineFunction(d))
+// .attr("stroke", "black")
+
+// draw();
 // }
 
 /* INITIALIZING FUNTION */ 
-function init(){
+// function init(){
 
-}
+// }
 /* DRAW FUNCTION */
 // we call this everytime there is an update to the data/state
 function draw() {
   console.log("state.selection", state.selection)
   // + FILTER DATA BASED ON STATE
 const filteredData = state.data
-.filter(d=> state.selection === d.usstate)
+.filter(d => state.selection === d.usstate)
 
   // + UPDATE SCALE(S), if needed
 
@@ -135,11 +150,57 @@ const filteredData = state.data
 
   // + DRAW CIRCLES/LABEL GROUPS, if you decide to
 
-  // + DEFINE LINE GENERATOR FUNCTION
+  const dots = svg 
+  .selectAll(".dot")
+  .data(filteredData, d => d.minwage)
+  .join(
+    enter => enter.append("g")
+      .attr("class", "dot")
+      .attr("fill", "#228D57")
+      .attr("transform", d => `translate(${xScale(d.year)}, ${yScale(d.minwage)})`)
+    ,
+    update => update
+      .call(update => update.transition()
+        .duration(900)
+        .attr("transform", d => `translate(${xScale(d.year)}, ${yScale(d.minwage)})`)
+    ),
+    exit => exit.remove()
+  );
 
-  // + DRAW LINE AND/OR AREA
-  const lineFunction = d3.line()
+dots.selectAll("circle")
+    .data(d => [d]) 
+    .join("circle")
+    .attr("r", radius)
+
+
+  // + DEFINE LINE GENERATOR FUNCTION
+  const lineGen = d3.line()
   .x(d=> xScale(d.year))
   .y(d=> yScale(d.minwage))
+
+  // + DRAW LINE AND/OR AREA
+
+  svg.selectAll("path.line")
+  .data([filteredData])
+  .join("path")
+  .attr("class", "line")
+  .attr("d", d=> lineGen(d))
+  .attr("fill", "none")
+  .attr("stroke", "#228D57")
+
+    const areaGen = d3.area()
+  .x(d => xScale(d.year))
+  .y0(yScale(0))
+  .y1(d => yScale(d.minwage))
+
+  svg.selectAll(".area")
+  .data([filteredData]) // data needs to take an []
+  .join("path")
+  .attr("class", 'area')
+  .attr("fill", "#85bb65")
+  .attr("opacity", 0.5)
+  .transition()
+  .duration(1000)
+  .attr("d", d => areaGen(d))
 
 }
