@@ -2,6 +2,10 @@
 
 New York recently announced a first-in-the-nation Affordable Internet Mandate. This means that internet service providers like Spectrum or Verizon Fios would need to provide a $15/month option. Currently a basic plan in New York starts at $50/month.
 
+Is internet access an unequal cost burden across the country, like in NY? The goal of the project is to make a case for nationwide Affordable Internet Mandate.
+
+The audience is the general public who are generally interested in internet access from a technical and cost perspective. By tying the cost of internet to the cost of utilities, the intent is to also talk about internet access as a public utility, sanctioning the government's involvement in price setting.
+
 I will explore internet access as it relates to avg utility costs, to help visualize the digital divide across the country with a couple graphs:
 
 1. Geographic Heat Map of Internet Access, with mouseover with detailed info about access. Not sure yet if county or state level is better.
@@ -13,5 +17,3 @@ My data sources will include:
 • US Census Data, Median Household Income 2018
 • Average Utility Cost per capita per state https://openei.org/wiki/Utility_Rate_Database
 • Data on average cost of internet plans per state https://www.broadbandsearch.net/blog/internet-cost-by-state
-
-If internet service providers are regulated by the FCC, then the federal government can set a country wide "Affordable Internet Mandate". My goal is to tell a story that show the gap in affordabiliity across the country, and use NY's $15/month plan as a model.
