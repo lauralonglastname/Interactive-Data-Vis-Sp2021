@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+  <head>
+    <meta charset="utf-8">
+    <title>Interactive Data Visualization Exploratory Project</title>
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body>
+    <h1>Minimum Wage 1938 - 2020 (in 2020 Dollars)</h1>
+    <p>Some states, like Alabama, have never had a minimum wage. 
+      So in 1938, the federal government instituted a country-wide minimum wage.
+    </p>
+    <p>The federal minimum wage is worth less today than when it was enacted.</p>
+    <p>The Fight for 15 is simply a market correction.</p>
+    <p>The goal of this project is to let the user explore the history of the minimum wage, see the importance of a federal minimum wage in the context of how many states don't have one, and draw their own conclusions on what the Fight for 15 represents. </p>
+    <label for="dropdown">US State</label>
+    <select id="dropdown" name="dropdown"></select>
+    <div id="d3-container"></div>
+    <p>I plan to add the data from 1938 to 1965 into this data set, and to make the federal line a permanent one so it will be easier to compare a state's min wage to the federal one.</p>
+    <script src="../lib/d3.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>
