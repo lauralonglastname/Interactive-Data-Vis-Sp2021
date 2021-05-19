@@ -2,8 +2,6 @@ Data from 1938 to 1968 is inconsistent. For example, Alaska did not become a sta
 
 How do I create the fixed fed min wage line? I delete the entire area graph every time I try it out.
 
-What is happening at line 18 in html? What is the error?
-
 // /_ CREATE FIXED FED MIN WAGE LINE _/
 const lineFunction = d3.line()
 .x(d=> xScale(d.year))
@@ -15,5 +13,3 @@ svg.selectAll("path.line")
 .attr("class", "line")
 .attr("d", d=> lineFunction(d))
 .attr("stroke", "black")
-
-Why is the second graph MIA?

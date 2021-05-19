@@ -1,4 +1,4 @@
-﻿State,MinWage,Status
+﻿StateName,MinWage,StateStatus
 Alabama,7.25,None
 Alaska,10.19,Greater
 Arizona,12,Greater
