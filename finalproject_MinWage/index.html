@@ -1,21 +1,29 @@
 <!DOCTYPE html>
   <head>
     <meta charset="utf-8">
-    <title>Interactive Data Visualization Exploratory Project</title>
+    <title>Minimum Wage Exploratory Project</title>
     <link rel="stylesheet" href="./style.css">
   </head>
   <body>
     <h1>The Fight for <s>$15</s> $25</h1>
-    <p>Some states, like Alabama, have never had a minimum wage. 
-      So in 1938, the federal government instituted a country-wide minimum wage.
-    </p>
-    <p>The federal minimum wage is worth less today than when it was enacted.</p>
-    <p>The Fight for 15 is simply a market correction.</p>
-    <p>The goal of this project is to let the user explore the history of the minimum wage, see the importance of a federal minimum wage in the context of how many states don't have one, and draw their own conclusions on what the Fight for 15 represents. </p>
+    <p><b>Presented by: Laura Mueller-Soppart |  Published on May 17, 2021</b></p>
+    <p><i>"Nobusiness which depends for existence on paying less than living wages to its workers has any right to continue in this country."</i></p>
+    <p>- President Franklin D Roosevelt, 1933</p>
+    <h2> Not every state has a minimum wage. </h2>
+    <p>Explore each state's minimum wage. Data set: https://www.dol.gov/agencies/whd/minimum-wage/state </p>
+    <div id="d3-map"></div>
+    <script src="../lib/d3.js"></script>
+    <script src="main.js"></script>
+    <h2>The minimum wage is stuck in time. </h2>
+    <p>Explore each state's minimum wage adjustments in 2020 dollars. Data set: https://www.kaggle.com/lislejoem/us-minimum-wage-by-state-from-1968-to-2017</p>
     <label for="dropdown">US State</label>
     <select id="dropdown" name="dropdown"></select>
     <div id="d3-container"></div>
-    <p>I plan to add the data from 1938 to 1965 into this data set, and to make the federal line a permanent one so it will be easier to compare a state's min wage to the federal one.</p>
+    <script src="../lib/d3.js"></script>
+    <script src="main.js"></script>
+    <h2> Adjust for <s>inflation</s> productivity. </h2>
+    <p>Explore how productivity has changed hte nature of the true minimum wage. Data set: https://www.epi.org/productivity-pay-gap/ </p>
+    <div id="d3-graph"></div>
     <script src="../lib/d3.js"></script>
     <script src="main.js"></script>
   </body>
