@@ -48,7 +48,7 @@ function initProd() {
 
 
 // + CREATE SVG ELEMENT
-svgProd = d3.select("#d3-container")
+svgProd = d3.select("#d3-chart")
   .append("svg")
   .attr('width', width)
   .attr('height', height)
