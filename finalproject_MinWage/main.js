@@ -1,5 +1,3 @@
-// AREA GRAPH MODULE 
-
 /* CONSTANTS AND GLOBALS */
 const width = window.innerWidth * 0.7,
   height = window.innerHeight * 0.7,
@@ -15,7 +13,7 @@ let yScale;
 /* APPLICATION STATE */
 let state = { 
   data: [],
-  selection: "Federal", // + YOUR FILTER SELECTION
+  selection: "New York", // + YOUR FILTER SELECTION
 };
 
 /* LOAD DATA */
@@ -119,18 +117,22 @@ svg.selectAll("path.fedline")
 .attr("stroke", "blue")
 .attr("fill", "none")
 
-//  // + UI ELEMENT SETUP
-//  const selectElement = d3.select("#dropdown")
+svg.append("text")
+		.attr("transform", `translate(${width},${y(data[0].usstate)})`)
+		.attr("dy", ".35em")
+		.attr("text-anchor", "start")
+		.style("fill", "blue")
+    .text("Federal Min Wage");
     
-//  // + add dropdown options
-// selectElement //Why did this change to selectElement from 'dropdown'?
-//    .selectAll("options")
-//    .data(Array.from(new Set(state.date.map(d=> d.usstate))))
-//    .join("option")
-//    .attr("value", d => d)
-//    .text(d => d)
-
-// })
+  // svg.selectAll("text.usstate")
+  //     .data(data)
+  //     .join("text")
+  //     .attr("class", 'usstate')
+  //     .attr("x", d => xScale(d.usstate) + margins.right)
+  //     .attr("y", d => yScale(d.StateMinWage)+ yScale.bandwidth() / 2)
+  //     .attr("dy", ".75em") 
+  //     .attr("text-anchor", "start") 
+  //     .text(d => d3.format(",")(d.usstate)) 
 draw(); // calls the draw function
 }
 
@@ -150,10 +152,6 @@ function draw() {
   // + FILTER DATA BASED ON STATE
 const filteredData = state.data
 .filter(d => state.selection === d.usstate)
-
-  // + UPDATE SCALE(S), if needed
-
-  // + UPDATE AXIS/AXES, if needed
 
   // + DRAW CIRCLES/LABEL GROUPS, if you decide to
 
@@ -212,5 +210,4 @@ dots.selectAll("circle")
 
 }
 
-// LINE GRAPH MODULE
 
