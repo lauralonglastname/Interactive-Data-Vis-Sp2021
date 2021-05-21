@@ -117,6 +117,8 @@ svg.selectAll("path.fedline")
 .attr("stroke", "blue")
 .attr("fill", "none")
 
+//HOW DO I GET A LABEL AT THE END OF THE LINE? 
+
 // svg.append("text")
 // 		.attr("transform", `translate(${width},${y(data[0].usstate)})`)
 // 		.attr("dy", ".35em")
