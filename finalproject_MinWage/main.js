@@ -117,12 +117,12 @@ svg.selectAll("path.fedline")
 .attr("stroke", "blue")
 .attr("fill", "none")
 
-svg.append("text")
-		.attr("transform", `translate(${width},${y(data[0].usstate)})`)
-		.attr("dy", ".35em")
-		.attr("text-anchor", "start")
-		.style("fill", "blue")
-    .text("Federal Min Wage");
+// svg.append("text")
+// 		.attr("transform", `translate(${width},${y(data[0].usstate)})`)
+// 		.attr("dy", ".35em")
+// 		.attr("text-anchor", "start")
+// 		.style("fill", "blue")
+//     .text("Federal Min Wage");
     
   // svg.selectAll("text.usstate")
   //     .data(data)

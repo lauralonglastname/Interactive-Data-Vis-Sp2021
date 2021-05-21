@@ -72,7 +72,7 @@ function initMap() {
       .join("pathMap")
       .attr("class", 'states')
       .attr("stroke", "black")
-      .attr("fill", "black")
+      .attr("fill", "blue")
       //is this where i create if statements for data?
       .attr("d", pathMap)
 
