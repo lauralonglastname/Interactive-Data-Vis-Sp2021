@@ -13,7 +13,7 @@ let yScale;
 /* APPLICATION STATE */
 let state = { 
   data: [],
-  selection: "New York", // + YOUR FILTER SELECTION
+  selection: "Federal", // + YOUR FILTER SELECTION
 };
 
 /* LOAD DATA */
@@ -114,7 +114,7 @@ svg.selectAll("path.fedline")
 .join("path")
 .attr("class", "fedline")
 .attr("d", d=> lineFunction(d))
-.attr("stroke", "blue")
+.attr("stroke", "#228D57")
 .attr("fill", "none")
 
 //HOW DO I GET A LABEL AT THE END OF THE LINE? 
@@ -193,7 +193,7 @@ dots.selectAll("circle")
   .attr("class", "line")
   .attr("d", d=> lineGen(d))
   .attr("fill", "none")
-  .attr("stroke", "#228D57")
+  .attr("stroke", "#85BB65")
 
     const areaGen = d3.area()
   .x(d => xScale(d.year))
