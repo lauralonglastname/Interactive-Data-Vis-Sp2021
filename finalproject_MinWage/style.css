@@ -65,11 +65,14 @@ p3 {
   font-family: "Associate Sans", serif;
 }
 
-label {
-  padding-top: 20px;
+p4 {
+  color: #3e3e3c;
+  text-align: Center;
+  font-size: 10px;
+  font-weight: light;
+  font-family: "Associate Sans", serif;
 }
 
-div {
-  padding: 10px;
-  text-align: Center;
+label {
+  padding-top: 20px;
 }

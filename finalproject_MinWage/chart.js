@@ -15,7 +15,7 @@ let yScale;
 d3.csv('../data/productivityWage.csv', d => {
   return {
     Year: new Date(d.Year, 01, 01) 
-    ProductivityWage: d.prodwage,
+    ProdWage: d.prodwage,
   }
   }) 
     .then(data => {
