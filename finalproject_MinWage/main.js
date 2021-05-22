@@ -115,6 +115,7 @@ svg.selectAll("path.fedline")
 .attr("class", "fedline")
 .attr("d", d=> lineFunction(d))
 .attr("stroke", "#228D57")
+.attr("stroke-width", 5)
 .attr("fill", "none")
 
 //HOW DO I GET A LABEL AT THE END OF THE LINE? 

@@ -4,7 +4,7 @@
   max-width: 200px;
   background-color: white;
   padding: 0.6em;
-  opacity: 0.7;
+  opacity: 0.9;
   pointer-events: none;
   border-radius: 5px;
   box-shadow: 0 0 7px gainsboro;
@@ -13,4 +13,63 @@
 .hover-content.visible {
   opacity: 0.9;
   font-size: 11px;
+}
+
+body {
+  background: white;
+  font-size: 14px;
+  font-weight: normal;
+  font-family: "Raleway", "Helvetica", sans-serif;
+  color: black;
+}
+
+h1 {
+  color: #3e3e3c;
+  text-align: Center;
+  font-size: 60px;
+  font-weight: bold;
+  font-family: "Associate Sans", serif;
+  letter-spacing: 2px;
+}
+
+h2 {
+  color: #3e3e3c;
+  text-align: Center;
+  font-size: 40px;
+  font-weight: medium;
+  font-family: "Associate Sans", serif;
+  letter-spacing: 2px;
+}
+
+p1 {
+  color: #3e3e3c;
+  text-align: Center;
+  font-size: 12px;
+  font-weight: light;
+  font-family: "Associate Sans", serif;
+}
+
+p2 {
+  color: #3e3e3c;
+  text-align: Center;
+  font-size: 20px;
+  font-weight: light;
+  font-family: "Associate Sans", serif;
+}
+
+p3 {
+  color: #3e3e3c;
+  text-align: Center;
+  font-size: 20px;
+  font-weight: light;
+  font-family: "Associate Sans", serif;
+}
+
+label {
+  padding-top: 20px;
+}
+
+div {
+  padding: 10px;
+  text-align: Center;
 }

@@ -3,7 +3,7 @@
  * */
 const width = window.innerWidth * 0.9,
   height = window.innerHeight * 0.7,
-  margin = { top: 20, bottom: 50, left: 60, right: 40 };
+  margin = { top: 20, bottom: 50, left: 0, right: 110 };
 
 /** these variables allow us to access anything we manipulate in
  * init() but need access to in draw().
@@ -15,7 +15,7 @@ let svg;
  * */
 let state = {
   geojson: null,
-  points: null,
+  wagecsv: null,
   hover: {
     screenPosition: null, // will be array of [x,y] once mouse is hovered on something
     mapPosition: null, // will be array of [long, lat] once mouse is hovered on something
@@ -29,10 +29,10 @@ let state = {
  * */
 Promise.all([
   d3.json("../data/usState.json"),
-  d3.csv("../data/usHeatExtremes.csv", d3.autoType),
-]).then(([geojson, pointsData]) => {
+  d3.csv("../data/USMinWageMap.csv", d3.autoType),
+]).then(([geojson, wagecsv]) => {
   state.geojson = geojson
-  state.points = pointsData
+  state.wagecsv = wagecsv
   console.log("state: ", state);
   init();
 });
@@ -60,49 +60,53 @@ function init() {
     // DEFINE PATH FUNCTION
     const path = d3.geoPath(projection)
 
+    // DEFINE FILL COLOR SCALE 
+    // TBD 
+
     // draw base layer path - one path for each state
     const states = svg.selectAll("path.states")
       .data(state.geojson.features)
       .join("path")
       .attr("class", 'states')
-      .attr("stroke", "black")
-      .attr("fill", "transparent")
-      .attr("d", path)
+      .attr("stroke", "#3E3E3C")
+      .attr("fill", "#E8E9C9")
+      .attr("d", path) 
 
-    // EXAPMLE #1: lat/long => x/y
-    // draw point for CUNY graduate center
-    const gradCenterPoint =  { latitude: 40.7423, longitude: -73.9833 };
-    svg.selectAll("circle.point")
-      .data([gradCenterPoint])
-      .join("circle")
-      .attr("r", 10)
-      .attr("fill", "steelblue")
-      .attr("transform", d=> {
-        // use our projection to go from lat/long => x/y
-        // ref: https://github.com/d3/d3-geo#_projection
-        const [x, y] = projection([d.longitude, d.latitude])
-        return `translate(${x}, ${y})`
-      })
-
-    // EXAMPLE #2: x/y=> lat/long
-    // take mouse screen position and report location value in lat/long
-    // set up event listener on our svg to see where the mouse is
+      const legends = ["Greater than Fed Mid Wage", "Equals Federal Min Wage", "No State Min Wage"]
+      const legendScale = d3.scaleOrdinal()
+              .domain(legends)
+              .range(["#228D57", "#E8E9C9", "#3E3E3C"])
+      svg.selectAll("legend")
+        .data(legends)
+        .enter()
+        .append("circle")
+          .attr("class", "legend")
+          .attr("cx", width-margin.right-100)
+          .attr("cy", function(d,i) {return (height-margin.bottom)- i*25})
+          .attr("r", 7)
+          .attr("fill", d => legendScale(d))
+          .attr("stroke", "white")
+          .attr("stroke-width", "1")
+      svg.selectAll("legendLabel")
+          .data(legends)
+          .enter()
+          .append("text")
+          .attr("class", "legend")
+          .attr("x", width-margin.right-80)
+          .attr("y", function(d,i) {return (height-margin.bottom+2.5)- i*25})
+          .text(d=>(d))
+      
     states
     .on("mousemove", event => {
-      // 1. get mouse x/y position
       const {clientX, clientY} = event
-
-      // 2. invert the projection to go from x/y => lat/long
-      // ref: https://github.com/d3/d3-geo#projection_invert
       const [long, lat] = projection.invert([clientX, clientY])
       state.hover=  {
-        screenPosition: [clientX, clientY], // will be array of [x,y] once mouse is hovered on something
-        mapPosition: [long, lat], // will be array of [long, lat] once mouse is hovered on something
+        screenPosition: [clientX, clientY],
+        mapPosition: [long, lat], 
         visible: true
       }
       draw();
     }).on("mouseout", event=>{
-      // hide tooltip when not moused over a state
       state.hover.visible = false
       draw(); // redraw
     })
@@ -132,9 +136,10 @@ function draw() {
     })
     .html(d=> {
       return `
-      <div>This is a sample Tooltip</div>
+      <div>State Minimum Wage</div>
+      State: ${d.StateName}
       <div>
-      Hovered Location: ${d.mapPosition}
+      Minimum Wage: ${d.minwage}
       </div>
       `
     })
